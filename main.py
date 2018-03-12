@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 
 class GintamaLinks():
-
+    """ Get links original """
     _data = None
     _links = []
     _mega = {}
@@ -23,6 +23,7 @@ class GintamaLinks():
             return False
 
     def get_ahref(self):
+        """ Use beautiful soup for find links """
         try:
             _soup = BeautifulSoup(self._data, 'lxml')
             _soup.prettify()           
@@ -31,8 +32,9 @@ class GintamaLinks():
                 
         except Exception as error:
             print(error)
-
+            
     def get_links(self):
+        """ Fill list of links """
         for x in range(len(self._links)):
             pos = self._links[x].find("mega.nz/")
             url = self._links[x][pos:]
