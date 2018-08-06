@@ -31,7 +31,7 @@ class GintamaLinks:
         if url in self._mega:
             return num
 
-        texto = "- ({}) https://{} {}".format(num, url, '\n')
+        texto = "({}) https://{} {}".format(num, url, '\n')
         file_mega.write(texto)
         self._mega.append(url)
         return num + 1
