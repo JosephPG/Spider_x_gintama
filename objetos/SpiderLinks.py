@@ -4,16 +4,18 @@ from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 
 
-class GintamaLinks:
+class SpiderLinks:
 
     __log_links = 'docs/links_log.txt'
     __mega_links = 'docs/mega_links.txt'
 
-    def __init__(self, url):
+    def __init__(self, url, cap_start, code_replace):
         self._url = url
         self._data = None
         self._links = []
         self._mega = []
+        self._cap_start = cap_start
+        self._code_replace = code_replace
 
     def __get_ahref(self):
         if self._data == None:
@@ -46,15 +48,16 @@ class GintamaLinks:
 
     def get_links(self):
         self.__get_ahref()
-        num_cap = 2
+        num_cap = self._cap_start
         file_mega_link = open(self.__mega_links, 'w')
         for link in self._links:
             pos_start = link.find("mega.nz/")
             url = link[pos_start:]
-            pos_end = url.find('">https')
+            pos_end = url.find('">')
             url = url[:pos_end]
-            url = url.replace("~~4dfl7SUCKS~~", "#")
+            if self._code_replace != '':
+                url = url.replace(self._code_replace, "#")
             num_cap = self.__save_link(url, num_cap, file_mega_link)
         file_mega_link.close()
-        print("Archivo mega_links generado satisfactoriamente")
+        print("Archivo mega_links generado satisfactoriamente use (\(.+\)) for regex replace")
 
